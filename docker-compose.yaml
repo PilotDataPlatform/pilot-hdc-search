@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  search:
+    build:
+      target: search-image
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    ports:
+      - "127.0.0.1:5064:5064"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=5064
+      - ELASTICSEARCH_URI=${ELASTICSEARCH_URI:-http://elasticsearch:9200}
+      - RELOAD=${RELOAD:-true}
+    volumes:
+      - .:/app
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.4
+    ports:
+      - "127.0.0.1:9201:9200"
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --output /dev/null --silent http://127.0.0.1:9200/_cat/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  init:
+    build:
+      target: init-image
+    environment:
+      - ELASTICSEARCH_URI=${ELASTICSEARCH_URI:-http://elasticsearch:9200}
+    volumes:
+      - ./migrations/:/app/migrations/
+      - ./search/:/app/search/
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+volumes:
+  elasticsearch-data:
