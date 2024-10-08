@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "search"
-version = "2.1.0"
+version = "2.2.6"
 description = "Service for performing searches."
 authors = ["Indoc Research"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
 elasticsearch = { extras = ["async"], version = "7.17.4" }
-fastapi = "0.78.0"
+fastapi = "0.88.0"
 opentelemetry-exporter-jaeger = "1.11.1"
 opentelemetry-instrumentation = "0.30b1"
 opentelemetry-instrumentation-fastapi = "0.30b1"
@@ -15,7 +15,7 @@ opentelemetry-instrumentation-elasticsearch = "0.30b1"
 pydantic = "1.9.1"
 python-dateutil = "2.8.2"
 uvicorn = { extras = ["standard"], version = "0.17.6" }
-pilot-platform-common = "^0.1.0"
+pilot-platform-common = "0.3.0"
 
 [tool.poetry.dev-dependencies]
 faker = "13.12.0"

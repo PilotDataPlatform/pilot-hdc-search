@@ -1,6 +1,7 @@
-# Copyright (C) 2022-2023 Indoc Systems
+# Copyright (C) 2022-Present Indoc Systems
 #
-# Licensed under the GNU AFFERO GENERAL PUBLIC LICENSE, Version 3.0 (the "License") available at https://www.gnu.org/licenses/agpl-3.0.en.html.
+# Licensed under the GNU AFFERO GENERAL PUBLIC LICENSE,
+# Version 3.0 (the "License") available at https://www.gnu.org/licenses/agpl-3.0.en.html.
 # You may not use this file except in compliance with the License.
 
 from datetime import datetime
@@ -37,6 +38,11 @@ class DatasetActivityType(StrEnum):
     TEMPLATE_DELETE = 'template_delete'
     TEMPLATE_UPDATE = 'template_update'
     TEMPLATE_CREATE = 'template_create'
+    KG_SPACE = 'kg_create'
+    KG_METADATA_UPLOAD = 'kg_metadata_upload'
+    KG_METADATA_REFRESH = 'kg_metadata_refresh'
+    KG_METADATA_DOWNLOAD = 'kg_metadata_download'
+    KG_METADATA_DELETE = 'kg_metadata_delete'
 
 
 class DatasetActivityChange(BaseModel):
