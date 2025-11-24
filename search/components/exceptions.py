@@ -6,9 +6,9 @@
 
 from abc import ABCMeta
 from abc import abstractmethod
+from collections.abc import Sequence
 from http.client import INTERNAL_SERVER_ERROR
 from http.client import UNPROCESSABLE_ENTITY
-from typing import Sequence
 
 from pydantic.error_wrappers import ErrorList
 

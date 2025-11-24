@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "search"
-version = "2.2.6"
+version = "2.2.10"
 description = "Service for performing searches."
 authors = ["Indoc Research"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.10,<3.11"
 elasticsearch = { extras = ["async"], version = "7.17.4" }
-fastapi = "0.88.0"
+fastapi = "^0.115.8"
 opentelemetry-exporter-jaeger = "1.11.1"
 opentelemetry-instrumentation = "0.30b1"
 opentelemetry-instrumentation-fastapi = "0.30b1"
@@ -15,9 +15,9 @@ opentelemetry-instrumentation-elasticsearch = "0.30b1"
 pydantic = "1.9.1"
 python-dateutil = "2.8.2"
 uvicorn = { extras = ["standard"], version = "0.17.6" }
-pilot-platform-common = "0.3.0"
+pilot-platform-common = "0.8.1"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 faker = "13.12.0"
 httpx = "0.23.0"
 jq = "1.2.2"
@@ -26,7 +26,7 @@ pytest-asyncio = "0.18.3"
 pytest-cov = "3.0.0"
 pytest-mock = "3.7.0"
 pytest-random-order = "1.0.4"
-testcontainers = "3.5.4"
+testcontainers = "3.6.1"
 
 [tool.pytest.ini_options]
 addopts = "-v --random-order"

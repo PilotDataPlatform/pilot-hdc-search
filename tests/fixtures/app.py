@@ -6,8 +6,8 @@
 
 import asyncio
 from asyncio import AbstractEventLoop
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 
 import pytest
 import yaml
@@ -23,10 +23,10 @@ from search.config import get_settings
 def project_root() -> Path:
     path = Path(__file__)
 
-    while path.name != 'search':
+    while not (path / 'pyproject.toml').is_file():
         path = path.parent
 
-    yield path
+    return path
 
 
 @pytest.fixture(scope='session')

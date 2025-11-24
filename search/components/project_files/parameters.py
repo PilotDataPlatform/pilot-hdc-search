@@ -21,7 +21,7 @@ class ProjectFilesTimeRangeParameters(QueryParameters):
 
     from_date: datetime = Query(alias='from')
     to_date: datetime = Query(alias='to')
-    time_zone: str = Query(default='+00:00', regex=TIME_ZONE_REGEX)
+    time_zone: str = Query(default='+00:00', pattern=TIME_ZONE_REGEX)
 
 
 class ProjectFilesSizeParameters(ProjectFilesTimeRangeParameters):
@@ -43,4 +43,4 @@ class ProjectFilesStatisticsParameters(QueryParameters):
 
     parent_path: str | None = Query(default=None)
     zone: int | None = Query(default=None)
-    time_zone: str = Query(default='+00:00', regex=TIME_ZONE_REGEX)
+    time_zone: str = Query(default='+00:00', pattern=TIME_ZONE_REGEX)

@@ -5,6 +5,7 @@
 # You may not use this file except in compliance with the License.
 
 import random
+from collections.abc import AsyncGenerator
 from datetime import datetime
 from typing import Any
 
@@ -30,6 +31,7 @@ class DatasetActivityFactory(BaseFactory):
         target_name: str | None = ...,
         user: str = ...,
         changes: list[dict[str, Any]] = ...,
+        network_origin: str = ...,
     ) -> DatasetActivityCreateSchema:
 
         if activity_type is ...:
@@ -53,6 +55,9 @@ class DatasetActivityFactory(BaseFactory):
         if changes is ...:
             changes = []
 
+        if network_origin is ...:
+            network_origin = 'unknown'
+
         return DatasetActivityCreateSchema(
             activity_type=activity_type,
             activity_time=activity_time,
@@ -61,6 +66,7 @@ class DatasetActivityFactory(BaseFactory):
             target_name=target_name,
             user=user,
             changes=changes,
+            network_origin=network_origin,
         )
 
     async def create(
@@ -72,6 +78,7 @@ class DatasetActivityFactory(BaseFactory):
         target_name: str | None = ...,
         user: str = ...,
         changes: list[dict[str, Any]] = ...,
+        network_origin: str = ...,
         **kwds: Any,
     ) -> DatasetActivity:
         entry = self.generate(
@@ -82,6 +89,7 @@ class DatasetActivityFactory(BaseFactory):
             target_name,
             user,
             changes,
+            network_origin,
         )
 
         # Make the document immediately appear in search results
@@ -100,6 +108,7 @@ class DatasetActivityFactory(BaseFactory):
         target_name: str | None = ...,
         user: str = ...,
         changes: list[dict[str, Any]] = ...,
+        network_origin: str = ...,
         **kwds: Any,
     ) -> ModelList[DatasetActivity]:
         return ModelList(
@@ -112,6 +121,7 @@ class DatasetActivityFactory(BaseFactory):
                     target_name,
                     user,
                     changes,
+                    network_origin,
                     **kwds,
                 )
                 for _ in range(number)
@@ -121,11 +131,11 @@ class DatasetActivityFactory(BaseFactory):
 
 @pytest.fixture
 def dataset_activity_crud(es_client) -> DatasetActivityCRUD:
-    yield DatasetActivityCRUD(es_client)
+    return DatasetActivityCRUD(es_client)
 
 
 @pytest.fixture
-async def dataset_activity_factory(dataset_activity_crud, fake) -> DatasetActivityFactory:
+async def dataset_activity_factory(dataset_activity_crud, fake) -> AsyncGenerator[DatasetActivityFactory]:
     dataset_activity_factory = DatasetActivityFactory(dataset_activity_crud, fake)
 
     await dataset_activity_factory.create_index()

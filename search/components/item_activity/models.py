@@ -5,6 +5,7 @@
 # You may not use this file except in compliance with the License.
 
 from datetime import datetime
+from typing import Any
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -32,14 +33,6 @@ class ItemActivityType(StrEnum):
     UPDATE = 'update'
 
 
-class ItemActivityChange(BaseModel):
-    """Items activity change model."""
-
-    item_property: str
-    old_value: str | None
-    new_value: str | None
-
-
 class ItemActivity(BaseModel):
     """Item activity elasticsearch document model."""
 
@@ -55,7 +48,8 @@ class ItemActivity(BaseModel):
     zone: int
     user: str
     imported_from: str | None
-    changes: list[ItemActivityChange]
+    changes: list[dict[str, Any]]
+    network_origin: str = 'unknown'
 
 
 class ItemActivityTransferStatistics(BaseModel):

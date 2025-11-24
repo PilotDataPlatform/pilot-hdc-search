@@ -5,11 +5,11 @@
 # You may not use this file except in compliance with the License.
 
 from datetime import datetime
+from typing import Any
 
 from pydantic import BaseModel
 
 from search.components.item_activity.models import ItemActivity
-from search.components.item_activity.models import ItemActivityChange
 from search.components.item_activity.models import ItemActivityType
 from search.components.models import ContainerType
 from search.components.types import StrEnum
@@ -43,14 +43,7 @@ class DatasetActivityType(StrEnum):
     KG_METADATA_REFRESH = 'kg_metadata_refresh'
     KG_METADATA_DOWNLOAD = 'kg_metadata_download'
     KG_METADATA_DELETE = 'kg_metadata_delete'
-
-
-class DatasetActivityChange(BaseModel):
-    """Dataset activity change model."""
-
-    property: str
-    old_value: str | None
-    new_value: str | None
+    SHARING_REQUEST_UPDATE = 'sharing_request_update'
 
 
 class DatasetActivity(BaseModel):
@@ -62,7 +55,8 @@ class DatasetActivity(BaseModel):
     version: str | None
     target_name: str | None
     user: str
-    changes: list[DatasetActivityChange]
+    changes: list[dict[str, Any]]
+    network_origin: str = 'unknown'
 
 
 class DatasetAndItemActivity(DatasetActivity, ItemActivity):
@@ -72,7 +66,8 @@ class DatasetAndItemActivity(DatasetActivity, ItemActivity):
 
     # Combined from two models
     activity_type: DatasetActivityType | ItemActivityType
-    changes: list[DatasetActivityChange | ItemActivityChange]
+    changes: list[dict[str, Any]]
+    network_origin: str = 'unknown'
 
     # Item activity model fields should be nullable
     container_type: ContainerType | None

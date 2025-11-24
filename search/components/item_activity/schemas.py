@@ -5,10 +5,10 @@
 # You may not use this file except in compliance with the License.
 
 from datetime import datetime
+from typing import Any
 from uuid import UUID
 
 from search.components.encoders import datetime_as_timestamp_encoder
-from search.components.item_activity.models import ItemActivityChange
 from search.components.item_activity.models import ItemActivityType
 from search.components.models import ContainerType
 from search.components.schemas import BaseSchema
@@ -29,7 +29,8 @@ class ItemActivitySchema(BaseSchema):
     zone: int
     user: str
     imported_from: str | None
-    changes: list[ItemActivityChange]
+    changes: list[dict[str, Any]]
+    network_origin: str
 
 
 class ItemActivityCreateSchema(ItemActivitySchema, json_encoders=datetime_as_timestamp_encoder):

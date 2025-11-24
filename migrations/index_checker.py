@@ -4,8 +4,6 @@
 # Version 3.0 (the "License") available at https://www.gnu.org/licenses/agpl-3.0.en.html.
 # You may not use this file except in compliance with the License.
 
-from typing import Type
-
 from common import configure_logging
 from elasticsearch import AsyncElasticsearch
 
@@ -35,7 +33,7 @@ class IndexChecker:
             await crud.create_index()
             logger.info(f'The index "{crud.index}" has been successfully created.')
 
-    async def check_cruds(self, cruds: list[Type[CRUD]]) -> None:
+    async def check_cruds(self, cruds: list[type[CRUD]]) -> None:
         """Check indexes for a list of CRUDs."""
 
         logger.info(f'Start checking for the existence of indexes for the CRUDs: {cruds}.')

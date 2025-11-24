@@ -5,6 +5,7 @@
 # You may not use this file except in compliance with the License.
 
 import random
+from collections.abc import AsyncGenerator
 from datetime import datetime
 from typing import Any
 from uuid import UUID
@@ -37,6 +38,7 @@ class ItemActivityFactory(BaseFactory):
         user: str = ...,
         imported_from: str | None = ...,
         changes: list[dict[str, Any]] = ...,
+        network_origin: str = ...,
     ) -> ItemActivityCreateSchema:
         if activity_type is ...:
             activity_type = random.choice(ItemActivityType.values())
@@ -74,6 +76,9 @@ class ItemActivityFactory(BaseFactory):
         if changes is ...:
             changes = []
 
+        if network_origin is ...:
+            network_origin = 'unknown'
+
         return ItemActivityCreateSchema(
             activity_type=activity_type,
             activity_time=activity_time,
@@ -87,6 +92,7 @@ class ItemActivityFactory(BaseFactory):
             user=user,
             imported_from=imported_from,
             changes=changes,
+            network_origin=network_origin,
         )
 
     async def create(
@@ -103,6 +109,7 @@ class ItemActivityFactory(BaseFactory):
         user: str = ...,
         imported_from: str | None = ...,
         changes: list[dict[str, Any]] = ...,
+        network_origin: str = ...,
         **kwds: Any,
     ) -> ItemActivity:
         entry = self.generate(
@@ -118,8 +125,11 @@ class ItemActivityFactory(BaseFactory):
             user,
             imported_from,
             changes,
+            network_origin,
         )
 
+        # Make the document immediately appear in search results
+        # https://www.elastic.co/guide/en/elasticsearch/reference/7.17/docs-refresh.html#docs-refresh
         params = {'refresh': 'true'}
 
         return await self.crud.create(entry, params=params, **kwds)
@@ -139,6 +149,7 @@ class ItemActivityFactory(BaseFactory):
         user: str = ...,
         imported_from: str | None = ...,
         changes: list[dict[str, Any]] = ...,
+        network_origin: str = ...,
         **kwds: Any,
     ) -> ModelList[ItemActivity]:
         return ModelList(
@@ -156,6 +167,7 @@ class ItemActivityFactory(BaseFactory):
                     user,
                     imported_from,
                     changes,
+                    network_origin,
                     **kwds,
                 )
                 for _ in range(number)
@@ -165,11 +177,11 @@ class ItemActivityFactory(BaseFactory):
 
 @pytest.fixture
 def item_activity_crud(es_client) -> ItemActivityCRUD:
-    yield ItemActivityCRUD(es_client)
+    return ItemActivityCRUD(es_client)
 
 
 @pytest.fixture
-async def item_activity_factory(item_activity_crud, fake) -> ItemActivityFactory:
+async def item_activity_factory(item_activity_crud, fake) -> AsyncGenerator[ItemActivityFactory]:
     item_activity_factory = ItemActivityFactory(item_activity_crud, fake)
 
     await item_activity_factory.create_index()

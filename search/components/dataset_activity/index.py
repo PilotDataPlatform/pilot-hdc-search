@@ -16,6 +16,7 @@ DATASET_ACTIVITY_INDEX_MAPPINGS = {
                 'old_value': {'type': 'keyword'},
             },
         },
+        'network_origin': {'type': 'keyword'},
         'container_code': {'type': 'keyword'},
         'target_name': {'type': 'keyword'},
         'user': {'type': 'text', 'fields': {'keyword': {'type': 'keyword'}}},
