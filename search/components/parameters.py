@@ -4,10 +4,6 @@
 # Version 3.0 (the "License") available at https://www.gnu.org/licenses/agpl-3.0.en.html.
 # You may not use this file except in compliance with the License.
 
-from __future__ import annotations
-
-from typing import Type
-
 from fastapi import Query
 from pydantic import BaseModel
 from pydantic import create_model
@@ -44,7 +40,7 @@ class SortParameters(QueryParameters):
     sort_order: SortingOrder | None = Query(default=SortingOrder.ASC)
 
     @classmethod
-    def with_sort_by_fields(cls, fields: Type[SortByFields]) -> Type[SortParameters]:
+    def with_sort_by_fields(cls, fields: type[SortByFields]) -> type['SortParameters']:
         """Limit sort_by field with values specified in fields argument."""
 
         return create_model(cls.__name__, __base__=cls, sort_by=(fields | None, Query(default=None)))

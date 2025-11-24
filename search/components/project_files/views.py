@@ -6,7 +6,6 @@
 
 from datetime import datetime
 from datetime import timezone
-from typing import Union
 
 from fastapi import APIRouter
 from fastapi import Depends
@@ -35,7 +34,7 @@ router = APIRouter(prefix='/project-files', tags=['Project Files'])
 )
 async def get_project_size_usage(
     project_code: str,
-    parent_path: Union[str, None] = None,
+    parent_path: str | None = None,
     parameters: ProjectFilesSizeParameters = Depends(),
     metadata_item_crud: MetadataItemCRUD = Depends(get_metadata_item_crud),
 ) -> ProjectFilesSizeResponseSchema:

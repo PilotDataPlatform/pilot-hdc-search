@@ -4,8 +4,6 @@
 # Version 3.0 (the "License") available at https://www.gnu.org/licenses/agpl-3.0.en.html.
 # You may not use this file except in compliance with the License.
 
-from __future__ import annotations
-
 from typing import Any
 from typing import TypeVar
 
@@ -19,7 +17,7 @@ Model = TypeVar('Model', bound=BaseModel)
 class ModelList(list):
     """Store a list of models of the same type."""
 
-    def __getitem__(self, item: Any) -> Model | ModelList:
+    def __getitem__(self, item: Any) -> Model | 'ModelList':
         """Return one item or a slice of the same class."""
 
         result = super().__getitem__(item)

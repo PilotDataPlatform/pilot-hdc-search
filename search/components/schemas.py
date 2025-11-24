@@ -4,8 +4,6 @@
 # Version 3.0 (the "License") available at https://www.gnu.org/licenses/agpl-3.0.en.html.
 # You may not use this file except in compliance with the License.
 
-from __future__ import annotations
-
 from pydantic import BaseModel
 
 from search.components.pagination import PageType
@@ -24,5 +22,5 @@ class ListResponseSchema(BaseSchema):
     result: list[BaseSchema]
 
     @classmethod
-    def from_page(cls, page: PageType) -> ListResponseSchema:
+    def from_page(cls, page: PageType) -> 'ListResponseSchema':
         return cls(num_of_pages=page.total_pages, page=page.number, total=page.count, result=page.entries)

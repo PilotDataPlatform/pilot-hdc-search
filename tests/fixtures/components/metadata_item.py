@@ -5,6 +5,7 @@
 # You may not use this file except in compliance with the License.
 
 import random
+from collections.abc import AsyncGenerator
 from datetime import datetime
 from typing import Any
 from uuid import UUID
@@ -189,6 +190,8 @@ class MetadataItemFactory(BaseFactory):
             archived,
         )
 
+        # Make the document immediately appear in search results
+        # https://www.elastic.co/guide/en/elasticsearch/reference/7.17/docs-refresh.html#docs-refresh
         params = {'refresh': 'true'}
 
         return await self.crud.create(entry, params=params, **kwds)
@@ -287,11 +290,11 @@ class MetadataItemFactory(BaseFactory):
 
 @pytest.fixture
 def metadata_item_crud(es_client) -> MetadataItemCRUD:
-    yield MetadataItemCRUD(es_client)
+    return MetadataItemCRUD(es_client)
 
 
 @pytest.fixture
-async def metadata_item_factory(metadata_item_crud, fake) -> MetadataItemFactory:
+async def metadata_item_factory(metadata_item_crud, fake) -> AsyncGenerator[MetadataItemFactory]:
     metadata_item_factory = MetadataItemFactory(metadata_item_crud, fake)
 
     await metadata_item_factory.create_index()

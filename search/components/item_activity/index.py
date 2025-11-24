@@ -16,6 +16,7 @@ ITEM_ACTIVITY_INDEX_MAPPINGS = {
                 'old_value': {'type': 'keyword'},
             },
         },
+        'network_origin': {'type': 'keyword'},
         'container_code': {'type': 'keyword'},
         'container_type': {'type': 'keyword'},
         'imported_from': {'type': 'keyword'},

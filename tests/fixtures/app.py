@@ -6,8 +6,8 @@
 
 import asyncio
 from asyncio import AbstractEventLoop
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 
 import pytest
 import yaml

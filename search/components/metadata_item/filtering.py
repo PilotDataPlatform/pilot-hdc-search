@@ -6,7 +6,6 @@
 
 from datetime import datetime
 from typing import Any
-from typing import Union
 from uuid import UUID
 
 from search.components.filtering import Filtering
@@ -95,7 +94,7 @@ class MetadataItemProjectSizeUsageFiltering(Filtering):
     """Metadata items filtering for project size usage."""
 
     project_code: str
-    parent_path: Union[str, None] = None
+    parent_path: str | None = None
     from_date: datetime
     to_date: datetime
 

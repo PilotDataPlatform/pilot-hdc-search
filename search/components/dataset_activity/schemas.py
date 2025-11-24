@@ -6,6 +6,7 @@
 
 from datetime import datetime
 from typing import Annotated
+from typing import Any
 from typing import Literal
 
 from pydantic import Field
@@ -18,14 +19,6 @@ from search.components.schemas import BaseSchema
 from search.components.schemas import ListResponseSchema
 
 
-class DatasetActivityChangeSchema(BaseSchema):
-    """Dataset activity change schema."""
-
-    property: str
-    old_value: str | None
-    new_value: str | None
-
-
 class DatasetActivitySchema(BaseSchema):
     """Dataset activity schema."""
 
@@ -35,7 +28,8 @@ class DatasetActivitySchema(BaseSchema):
     version: str | None
     target_name: str | None
     user: str
-    changes: list[DatasetActivityChangeSchema]
+    changes: list[dict[str, Any]]
+    network_origin: str
 
 
 class DatasetActivityCreateSchema(DatasetActivitySchema, json_encoders=datetime_as_timestamp_encoder):
