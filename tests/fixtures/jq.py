@@ -36,4 +36,4 @@ class JQ:
 
 @pytest.fixture
 def jq() -> type[JQ]:
-    yield JQ
+    return JQ

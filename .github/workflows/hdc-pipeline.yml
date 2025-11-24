@@ -18,7 +18,7 @@ jobs:
     uses: PilotDataPlatform/pilot-hdc-ci-tools/.github/workflows/run_tests.yml@main
     with:
       min_coverage_percent: 97
-      coverage_target: "search"
+      coverage_target: 'search'
     secrets: inherit
 
   build_and_publish_hdc:
