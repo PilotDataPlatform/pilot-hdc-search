@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "search"
-version = "2.2.11"
+version = "2.2.12"
 description = "Service for performing searches."
 authors = ["Indoc Research"]
 
